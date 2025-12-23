@@ -94,3 +94,19 @@ CREATE TABLE posts (
   title TEXT NOT NULL,
   user_id int REFERENCES users (id)
 );
+
+INSERT INTO
+  users (username)
+VALUES
+  ('Sayem'),
+  ('Akash'),
+  ('Asif'),
+  ('Srayo')
+
+INSERT INTO
+  posts (title, user_id)
+VALUES
+  ('This is a nice day', 2),
+  ('Enjoying the raining', 1),
+  ('Travelling to Comilla', 4),
+  ('Great to see the result', 4)
