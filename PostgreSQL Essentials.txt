@@ -1,0 +1,96 @@
+-- NULL With COALESCE --
+true = true (Output: true)
+false = false (Output: true)
+null = null (Output: false)
+null != null (Output: false)
+
+========== We need to use null like this ==========
+SELECT * FROM students WHERE email is null;
+SELECT * FROM students WHERE email is not null;
+
+-- COALESCE (Returns the first "not null" value) --
+SELECT coalesce(null, null, 3, 2);  --> Output: 3 (Because it's the first not null)
+
+SELECT first_name, last_name, coalesce(email, 'Not provided') 
+FROM students;  --> (If someone don't give email it will show "Not provided");
+
+-- LIMIT --
+SELECT * FROM students LIMIT 5;
+SELECT * FROM students WHERE grade = 'A+' LIMIT 5;
+SELECT * FROM students LIMIT 5 OFFSET 3; --> (It will show 5 but except first 3)
+
+-- PAGINATION --
+SELECT * FROM students LIMIT 5 OFFSET 5 * 0;  --> (OFFSET = 0)
+SELECT * FROM students LIMIT 5 OFFSET 5 * 1;  --> (OFFSET = 5)
+SELECT * FROM students LIMIT 5 OFFSET 5 * 2;  --> (OFFSET = 10)
+
+-- UPDATE --
+UPDATE students
+SET email = 'defaul@gmail.com'
+WHERE email IS NULL;
+
+-- 
+UPDATE students
+SET
+  first_name = 'Ariful',
+  age = 32
+WHERE student_id = 1;
+
+--
+UPDATE students
+SET grade = 'C'
+WHERE student_id = 1 OR student_id = 3;
+
+-- DELETE --
+DELETE FROM students
+WHERE grade = 'C';
+
+--
+DELETE FROM students
+WHERE grade = 'B' AND age > 20;
+
+-- GROUP BY --
+(Here we can retrieve one value for one row when we want to group by a column)
+
+SELECT country, AVG(age)
+FROM students
+GROUP BY country;
+
+// Number of students for each country //
+SELECT country, count(*)
+FROM students
+GROUP BY country
+ORDER BY count DESC;
+
+// Count students by grade //
+SELECT grade, count(*)
+FROM students
+GROUP BY grade;
+
+-- GROUP BY with HAVING (Filtering) --
+
+// Courses with more than 3 courses //
+SELECT course, count(*)
+FROM students
+GROUP BY course
+HAVING count(*) > 3;
+
+// Countries where average student age is more than 28 //
+SELECT country, AVG(age)
+FROM students
+GROUP BY country
+HAVING AVG(age) > 28;
+
+-----------------------------------------------------------------------------
+
+-- FOREIGN KEY --
+CREATE TABLE users (
+  id serial PRIMARY KEY,
+  username varchar(25) NOT NULL
+);
+
+CREATE TABLE posts (
+  id serial PRIMARY KEY,
+  title TEXT NOT NULL,
+  user_id int REFERENCES users (id)
+);
