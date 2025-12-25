@@ -110,3 +110,53 @@ VALUES
   ('Enjoying the raining', 1),
   ('Travelling to Comilla', 4),
   ('Great to see the result', 4)
+
+-- JOIN --
+
+// Inner Join //
+
+// Get post title with the username //
+SELECT title, username
+FROM posts
+JOIN users ON posts.user_id = users.id
+
+// Get post title with the username (Using aliasing and avoiding ambiguity) //
+SELECT p.id, title, username
+FROM posts AS p
+JOIN users AS u ON p.user_id = u.id;
+
+// Left Join //
+SELECT *
+FROM posts AS p
+LEFT JOIN users AS u ON p.user_id = u.id;
+
+// Right Join //
+SELECT *
+FROM posts AS p
+RIGHT JOIN users AS u ON p.user_id = u.id;
+
+// Full Join //
+SELECT *
+FROM posts AS p
+FULL JOIN users AS u ON p.user_id = u.id;
+
+// Cross Join and Natural Join //
+
+CREATE TABLE employees (emp_id int, emp_name varchar(50), dept_id int);
+CREATE TABLE departments (dept_id int, dept_name varchar(30));
+
+INSERT INTO employees VALUES (1, 'John Doe', 101);
+INSERT INTO employees VALUES (2, 'Jane Smith', 102);
+
+INSERT INTO departments VALUES (101, 'HR');
+INSERT INTO departments VALUES (102, 'IT');
+
+-- Cross Join --
+SELECT *
+FROM employees 
+CROSS JOIN departments;
+
+-- Natural Join --
+SELECT *
+FROM employees
+NATURAL JOIN departments;
